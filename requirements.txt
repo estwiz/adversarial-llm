@@ -1,0 +1,10 @@
+rtpt==0.0.4
+fairscale==0.4.13
+fire==0.7.0
+sentencepiece==0.2.0
+accelerate==1.4.0
+bitsandbytes==0.45.2
+langchain==0.3.19
+langchain-huggingface==0.1.2
+Levenshtein==0.26.1
+transformers==4.49.0
