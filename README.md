@@ -31,6 +31,7 @@ python3 craft_adv_examples.py
     ``` 
 
 4. Muti-GPU inference support
+
 The file `craft_adv_examples_multi_gpu.py` supports inference on multiple GPUs. Assuming your have `4` GPUs in your environment, run the following code to run:
 > [!IMPORTANT]  
 > Modify the number of GPU nodes available (--nproc-per-node 4)
