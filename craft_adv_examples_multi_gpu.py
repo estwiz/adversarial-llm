@@ -9,6 +9,8 @@ from Levenshtein import distance
 from rtpt import RTPT
 import re
 import csv
+import numpy as np
+import os
 
 from utils import (
     get_output_file_name,
@@ -17,19 +19,21 @@ from utils import (
     get_prompt_template,
     write_result,
 )
-
 from config import ExperimentParams, expt1_config
+
+
+rank = int(os.environ["RANK"])
+device = torch.device(f"cuda:{rank}")
+print(f"Using device: {device}")
+torch.distributed.init_process_group(backend="nccl", device_id=device)
 
 
 def load_classifier(classifier_name):
     tokenizer = AutoTokenizer.from_pretrained(classifier_name)
-    classifier = (
-        BertForSequenceClassification.from_pretrained(
-            classifier_name, torch_dtype=torch.float16
-        )
-        .cuda()
-        .eval()
+    classifier = BertForSequenceClassification.from_pretrained(
+        classifier_name, torch_dtype=torch.float16
     )
+    classifier.to(device).eval()
     return tokenizer, classifier
 
 
@@ -37,8 +41,9 @@ def load_llm_pipeline(llm_name):
     tokenizer = AutoTokenizer.from_pretrained(llm_name, use_fast=True)
 
     model = AutoModelForCausalLM.from_pretrained(
-        llm_name, torch_dtype=torch.float16, trust_remote_code=True, device_map="auto"
+        llm_name, torch_dtype=torch.float16, trust_remote_code=True, tp_plan="auto"
     )
+    model.to(device)
 
     generation_config = GenerationConfig.from_pretrained(llm_name)
     generation_config.max_new_tokens = 500
@@ -61,20 +66,20 @@ def load_llm_pipeline(llm_name):
 
 
 # Parameters
-# MODEL_NAME = "mistralai/Mistral-7B-Instruct-v0.2"
-# HATE_SPEECH_CLASSIFIER = "Hate-speech-CNERG/dehatebert-mono-english"
-# MAX_STEPS = 50
-# EARLY_STOPPING_PATIENCE = 25
-# MAX_CHANGES_PER_STEP = np.inf
-# INPUT_FILE_NAME = "./data/hate_speech_samples.tsv"
-# RTPT_NAME = "XX"
-# OUTPUT_FILE = get_output_file_name(
-#     model_name=MODEL_NAME,
-#     max_change_per_step=MAX_CHANGES_PER_STEP,
-#     input_filename=INPUT_FILE_NAME,
-# )
-
+MODEL_NAME = "mistralai/Mistral-7B-Instruct-v0.2"
+HATE_SPEECH_CLASSIFIER = "Hate-speech-CNERG/dehatebert-mono-english"
+MAX_STEPS = 50
+EARLY_STOPPING_PATIENCE = 25
+MAX_CHANGES_PER_STEP = np.inf
 SEED = 42
+INPUT_FILE_NAME = "./data/hate_speech_samples.tsv"
+OUTPUT_FILE = get_output_file_name(
+    model_name=MODEL_NAME,
+    max_change_per_step=MAX_CHANGES_PER_STEP,
+    input_filename=INPUT_FILE_NAME,
+)
+RTPT_NAME = "XX"
+
 set_seed(SEED)
 
 
