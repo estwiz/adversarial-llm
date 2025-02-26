@@ -9,3 +9,4 @@ langchain-huggingface==0.1.2
 Levenshtein==0.26.1
 transformers==4.49.0
 huggingface-hub==0.29.1
+pandas==2.2.3
