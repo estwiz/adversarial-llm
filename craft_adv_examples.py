@@ -60,20 +60,6 @@ def load_llm_pipeline(llm_name):
     return pipe
 
 
-# Parameters
-# MODEL_NAME = "mistralai/Mistral-7B-Instruct-v0.2"
-# HATE_SPEECH_CLASSIFIER = "Hate-speech-CNERG/dehatebert-mono-english"
-# MAX_STEPS = 50
-# EARLY_STOPPING_PATIENCE = 25
-# MAX_CHANGES_PER_STEP = np.inf
-# INPUT_FILE_NAME = "./data/hate_speech_samples.tsv"
-# RTPT_NAME = "XX"
-# OUTPUT_FILE = get_output_file_name(
-#     model_name=MODEL_NAME,
-#     max_change_per_step=MAX_CHANGES_PER_STEP,
-#     input_filename=INPUT_FILE_NAME,
-# )
-
 SEED = 42
 set_seed(SEED)
 
