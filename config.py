@@ -18,7 +18,7 @@ expt1_config = ExperimentParams(
     max_steps=50,
     early_stopping_patience=25,
     max_change_per_step=np.inf,
-    input_filename="./data-splitted/split_1.tsv",
+    input_filename="./data-splitted/split_2.tsv",
     rprt_name="XX"
 )
 
