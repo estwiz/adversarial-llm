@@ -8,8 +8,11 @@ class ExperimentParams:
     max_steps: int
     early_stopping_patience: int
     max_change_per_step: float
-    input_filename: str
     rprt_name: str
+    input_filename: str = "data-splitted/split_{}.tsv" # will be dynamically updated
+
+    def set_split_num(self, split_num: int):
+        self.input_filename = self.input_filename.format(split_num)
 
 
 expt1_config = ExperimentParams(
@@ -18,7 +21,6 @@ expt1_config = ExperimentParams(
     max_steps=50,
     early_stopping_patience=25,
     max_change_per_step=np.inf,
-    input_filename="./data-splitted/split_2.tsv",
     rprt_name="XX"
 )
 
@@ -29,7 +31,6 @@ expt2_config = ExperimentParams(
     max_steps=50,
     early_stopping_patience=25,
     max_change_per_step=10,
-    input_filename="./data-splitted/split_1.tsv",
     rprt_name="XX"
 )
 
@@ -40,6 +41,5 @@ expt_gemma_config = ExperimentParams(
     max_steps=50,
     early_stopping_patience=25,
     max_change_per_step=np.inf,
-    input_filename="./data-splitted/split_1.tsv",
     rprt_name="XX"
 )

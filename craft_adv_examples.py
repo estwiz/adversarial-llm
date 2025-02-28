@@ -9,6 +9,7 @@ from Levenshtein import distance
 from rtpt import RTPT
 import re
 import csv
+import argparse
 
 from utils import (
     get_output_file_name,
@@ -64,7 +65,9 @@ SEED = 42
 set_seed(SEED)
 
 
-def run_expriment(config: ExperimentParams):
+def run_expriment(config: ExperimentParams, split_num: int):
+    # Set the split number for the dataset
+    config.set_split_num(split_num)
     # parameters
     MODEL_NAME = config.model_name
     HATE_SPEECH_CLASSIFIER = config.classifier_name
@@ -201,4 +204,8 @@ def run_expriment(config: ExperimentParams):
 
 
 if __name__ == "__main__":
-    run_expriment(expt1_config)
+    parser = argparse.ArgumentParser(description="Parse arguments to build the config for the experiment")
+    parser.add_argument("--split", type=int, required=True, help="The split of the dataset to use")
+    args = parser.parse_args()
+
+    run_expriment(config=expt1_config, split_num=args.split)

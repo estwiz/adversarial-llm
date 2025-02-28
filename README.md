@@ -21,13 +21,13 @@ sh ./setup.sh
 3. Run the python script to generate the adversarial examples in the `results` folder.
 
 ```shell
-python3 craft_adv_examples.py 
+python3 craft_adv_examples.py --split=1
 ```
 
  * If you want to run the script on a remote server and not get it interrupted when your remote connection quits, run the command with `nohup` as below:
 
     ```shell
-    nohup python3 craft_adv_examples.py  > expt.log 2>&1 &
+    nohup python3 craft_adv_examples.py --split=1 > expt.log 2>&1 &
     ``` 
 
 4. Muti-GPU inference support
@@ -37,5 +37,5 @@ The file `craft_adv_examples_multi_gpu.py` supports inference on multiple GPUs. 
 > Modify the number of GPU nodes available (--nproc-per-node 4)
 
 ```
-torchrun --nproc-per-node 4 craft_adv_examples_multi_gpu.py 
+torchrun --nproc-per-node 4 craft_adv_examples_multi_gpu.py  --split=1
 ```
