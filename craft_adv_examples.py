@@ -19,7 +19,7 @@ from utils import (
     write_result,
 )
 
-from config import ExperimentParams, expt1_config, expt_gemma_config
+from config import ExperimentParams, expt1_config, expt2_config, expt_gemma_config
 
 
 def load_classifier(classifier_name):
@@ -209,4 +209,5 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     # run_expriment(config=expt1_config, split_num=args.split) # For Mistral
-    run_expriment(config=expt_gemma_config, split_num=args.split)
+    # run_expriment(config=expt_gemma_config, split_num=args.split)
+    run_expriment(config=expt2_config, split_num=args.split)
