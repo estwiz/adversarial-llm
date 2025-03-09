@@ -47,8 +47,8 @@ expt_gemma_config = ExperimentParams(
 expt_llama_config = ExperimentParams(
     model_name="meta-llama/Llama-3.1-8b",
     classifier_name="Hate-speech-CNERG/dehatebert-mono-english",
-    max_steps=30,
-    early_stopping_patience=15,
-    max_change_per_step=10,
+    max_steps=50,
+    early_stopping_patience=25,
+    max_change_per_step=np.inf,
     rprt_name="XX"
 )
