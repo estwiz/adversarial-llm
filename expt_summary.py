@@ -1,5 +1,23 @@
 import glob
 import pandas as pd
+import matplotlib.pyplot as plt
+from matplotlib.lines import Line2D
+import numpy as np
+
+
+def configure_plots() -> None:
+    plt.rc("font", family="serif")
+    # Setting for matplotlib
+    plt.rcParams.update(
+        {
+            "axes.labelsize": 14,
+            "axes.titlesize": 16,
+            "xtick.labelsize": 12,
+            "ytick.labelsize": 12,
+            "legend.fontsize": 12,
+            "legend.title_fontsize": 14,
+        }
+    )
 
 
 def load_allowed_duplicates():
@@ -67,6 +85,61 @@ def get_statistics(patterns: list[str]):
         model = name.split("_")[0]
         max_change = name.replace("*", "").split(".tsv")[0].split("_")[-1]
 
+        # Plots
+        # Distance is normalized between [50, 250] to keep dots visible but not too large
+        distance_size = (results["Distance"] - results["Distance"].min()) / (
+            results["Distance"].max() - results["Distance"].min()
+        ) * 200 + 50
+        distance_size = distance_size.astype(np.float64)
+
+        plt.figure(figsize=(8, 6))
+        plt.scatter(
+            data=results,
+            x="Num_Steps",
+            y="Final_Score",
+            c=1-results["Success"],
+            cmap="bwr",  # Blue for success, red for fail
+            s=distance_size,  # size of the dot
+            edgecolor="k",
+            alpha=0.5,
+        )
+        plt.xlabel("Number of Steps")
+        plt.ylabel("Hate Score")
+        plt.title(f"{model} - Max distance: {max_change}")
+
+        # Manually create legend handles
+        legend_elements = [
+            Line2D(
+                [0],
+                [0],
+                marker="o",
+                color="w",
+                label="Success",
+                markerfacecolor="blue",
+                markersize=8,
+            ),
+            Line2D(
+                [0],
+                [0],
+                marker="o",
+                color="w",
+                label="Fail",
+                markerfacecolor="red",
+                markersize=8,
+            ),
+        ]
+
+        # Set the legend with proper handles
+        plt.legend(
+            handles=legend_elements,
+            title="Adversarial classification",
+            loc='upper center',
+            bbox_to_anchor=(0.5, -0.13),
+            ncol=2,
+        )
+        plt.subplots_adjust(bottom=0.2)
+        plt.savefig(f"exp_stat/{model}_{max_change}_scatter.png")
+
         # Statistics
         sucess_rate = results["Success"].mean() * 100
 
@@ -100,6 +173,7 @@ def get_statistics(patterns: list[str]):
 
 
 def main():
+    configure_plots()
     patterns = [
         "results/Mistral-7B-Instruct-v0.2_INF*.tsv",
         "results/Mistral-7B-Instruct-v0.2_10*.tsv",
