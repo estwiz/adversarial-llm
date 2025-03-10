@@ -70,17 +70,18 @@ def get_statistics(patterns: list[str]):
         # Statistics
         sucess_rate = results["Success"].mean() * 100
 
-        hate_score = results["Final_Score"].mean()
-        hate_score_std = results["Final_Score"].std()
+        result_success = results[results["Success"] == 1]
+        hate_score = result_success["Final_Score"].mean()
+        hate_score_std = result_success["Final_Score"].std()
 
-        num_steps = results["Num_Steps"].mean()
-        num_steps_std = results["Num_Steps"].std()
+        num_steps = result_success["Num_Steps"].mean()
+        num_steps_std = result_success["Num_Steps"].std()
 
-        distance = results["Distance"].mean()
-        distance_std = results["Distance"].std()
+        distance = result_success["Distance"].mean()
+        distance_std = result_success["Distance"].std()
 
-        distance_ratio = results["distance_ratio"].mean() * 100
-        distance_ratio_std = results["distance_ratio"].std() * 100
+        distance_ratio = result_success["distance_ratio"].mean() * 100
+        distance_ratio_std = result_success["distance_ratio"].std() * 100
 
         # Create a dictionary with the statistics to save to dataframe
         stats = {
