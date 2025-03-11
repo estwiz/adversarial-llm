@@ -1,6 +1,6 @@
 
 # Adversarial Example Generation using LLMs
-This project is based on this [github repo](https://github.com/LukasStruppek/Adversarial_LLMs/tree/mai) and [paper](https://arxiv.org/pdf/2402.09132)
+This project is based on this [github repo](https://github.com/LukasStruppek/Adversarial_LLMs/tree/main) and [paper](https://arxiv.org/pdf/2402.09132)
 
 ## Creating Environment
 Create a virtual Python Environment
