@@ -54,6 +54,7 @@ def load_llm_pipeline(llm_name):
         model=model,
         tokenizer=tokenizer,
         generation_config=generation_config,
+        return_full_text=False
     )
 
     pipe = HuggingFacePipeline(pipeline=text_pipeline)
@@ -81,6 +82,7 @@ def run_expriment(config: ExperimentParams, split_num: int):
         max_change_per_step=MAX_CHANGES_PER_STEP,
         input_filename=INPUT_FILE_NAME,
     )
+    TEMPLATE = config.prompt_template
 
     tokenizer, classifier = load_classifier(HATE_SPEECH_CLASSIFIER)
     llm = load_llm_pipeline(MODEL_NAME)
@@ -103,9 +105,11 @@ def run_expriment(config: ExperimentParams, split_num: int):
         writer = csv.writer(file, delimiter="\t")
         writer.writerow(result_dict.keys())
 
-    template = """
-    <s>[INST]{prompt}[/INST]
-    """
+    # template = """
+    # <s>[INST]{prompt}[/INST]
+    # """
+    # template = """{prompt}"""
+
     url_pattern = re.compile(r"https?://\S+|www\.\S+")
 
     for initial_sample in dataset:
@@ -125,7 +129,7 @@ def run_expriment(config: ExperimentParams, split_num: int):
         prompt = get_prompt_template(current_sample, initial_score)
         prompt_template = PromptTemplate(
             input_variables=["prompt"],
-            template=template,
+            template=TEMPLATE,
         )
 
         # optimization loop
@@ -142,7 +146,7 @@ def run_expriment(config: ExperimentParams, split_num: int):
                 print(output)
                 # extract sample from model output
                 try:
-                    temp = re.findall(r"\|([^|]+)\|", output)[-1].strip()
+                    temp = re.findall(r"\|([^|]+)\|", output)[0].strip()
                     previous_sample = current_sample
                     current_sample = temp
                     print("Current sample: ", current_sample)
@@ -209,6 +213,6 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     # run_expriment(config=expt1_config, split_num=args.split) # For Mistral
-    # run_expriment(config=expt_gemma_config, split_num=args.split)
+    run_expriment(config=expt_gemma_config, split_num=args.split)
     # run_expriment(config=expt2_config, split_num=args.split)
-    run_expriment(config=expt_llama_config, split_num=args.split)
+    # run_expriment(config=expt_llama_config, split_num=args.split)
