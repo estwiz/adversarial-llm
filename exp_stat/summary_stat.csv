@@ -1,3 +1,4 @@
 Model,Max Change,Success Rate,Hate Score,Num Steps,Distance,Distance Ratio
 Mistral-7B-Instruct-v0.2,INF,83.09,0.2 ± 0.15,5.2 ± 9.42,39.17 ± 67.43,96.53 ± 5.98
-Mistral-7B-Instruct-v0.2,10,70.21,0.22 ± 0.15,4.9 ± 8.75,15.83 ± 28.86,97.32 ± 4.89
+Mistral-7B-Instruct-v0.2,10,70.21,0.22 ± 0.15,4.88 ± 8.75,15.67 ± 28.78,97.34 ± 4.88
+gemma-2b-it,INF,58.54,0.12 ± 0.12,1.73 ± 3.21,71.43 ± 55.23,88.84 ± 8.63
