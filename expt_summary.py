@@ -178,9 +178,9 @@ def main():
         "results/Mistral-7B-Instruct-v0.2_INF*.tsv",
         "results/Mistral-7B-Instruct-v0.2_10*.tsv",
         "results/gemma-2b-it_INF*.tsv",
-        # "results/gemma-2b-it_10*.tsv",
-        # "results/Llama-3.1-8b_INF*.tsv",
-        # "results/Llama-3.1-8b_10*.tsv",
+        "results/gemma-2b-it_10*.tsv",
+        "results/Llama-3.1-8b_INF*.tsv",
+        "results/Llama-3.1-8b_10*.tsv",
     ]
     summary_stat = get_statistics(patterns)
     summary_stat.to_csv("exp_stat/summary_stat.csv", index=False)
