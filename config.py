@@ -43,7 +43,8 @@ expt_gemma_config = ExperimentParams(
     classifier_name="Hate-speech-CNERG/dehatebert-mono-english",
     max_steps=50,
     early_stopping_patience=25,
-    max_change_per_step=np.inf,
+    # max_change_per_step=np.inf,
+    max_change_per_step=10,
     rprt_name="XX",
 )
 
