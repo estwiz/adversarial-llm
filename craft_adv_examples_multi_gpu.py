@@ -20,7 +20,16 @@ from utils import (
     get_prompt_template,
     write_result,
 )
-from config import ExperimentParams, expt1_config
+
+from config import (
+    ExperimentParams,
+    expt_config_mistral_inf,
+    expt_config_mistral_10,
+    expt_config_llama_inf,
+    expt_config_llama_10,
+    expt_config_gemma_inf,
+    expt_config_gemma_10,
+)
 
 
 rank = int(os.environ["RANK"])
@@ -213,4 +222,5 @@ if __name__ == "__main__":
     parser.add_argument("--split", type=int, required=True, help="The split of the dataset to use")
     args = parser.parse_args()
 
-    run_expriment(config=expt1_config, split_num=args.split)
+    # Change the config if you want to perform a different experiment
+    run_expriment(config=expt_config_mistral_inf, split_num=args.split)

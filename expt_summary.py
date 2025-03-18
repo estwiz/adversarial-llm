@@ -7,7 +7,7 @@ import numpy as np
 
 def configure_plots() -> None:
     plt.rc("font", family="serif")
-    # Setting for matplotlib
+    plt.rc("text", usetex=True)
     plt.rcParams.update(
         {
             "axes.labelsize": 14,
@@ -86,11 +86,12 @@ def get_statistics(patterns: list[str]):
         max_change = name.replace("*", "").split(".tsv")[0].split("_")[-1]
 
         # Plots
-        # Distance is normalized between [50, 250] to keep dots visible but not too large
+        # Distance is normalized between [40, 340] to keep dots visible but not too large
         distance_size = (results["Distance"] - results["Distance"].min()) / (
             results["Distance"].max() - results["Distance"].min()
-        ) * 200 + 50
+        ) * 300 + 40
         distance_size = distance_size.astype(np.float64)
+
 
         plt.figure(figsize=(8, 6))
         plt.scatter(
@@ -105,7 +106,8 @@ def get_statistics(patterns: list[str]):
         )
         plt.xlabel("Number of Steps")
         plt.ylabel("Hate Score")
-        plt.title(f"{model} - Max distance: {max_change}")
+        plot_title = f"{model.capitalize()}, Max change: " + (str(max_change) if max_change != 'INF' else r"$\infty$")
+        plt.title(plot_title)
 
         # Manually create legend handles
         legend_elements = [
@@ -123,7 +125,7 @@ def get_statistics(patterns: list[str]):
                 [0],
                 marker="o",
                 color="w",
-                label="Fail",
+                label="Failure",
                 markerfacecolor="red",
                 markersize=8,
             ),
@@ -132,13 +134,13 @@ def get_statistics(patterns: list[str]):
         # Set the legend with proper handles
         plt.legend(
             handles=legend_elements,
-            title="Adversarial classification",
+            # title="Adversarial classification",
             loc='upper center',
             bbox_to_anchor=(0.5, -0.13),
             ncol=2,
         )
         plt.subplots_adjust(bottom=0.2)
-        plt.savefig(f"exp_stat/{model}_{max_change}_scatter.png")
+        plt.savefig(f"exp_stat/{model}_{max_change}_scatter.png", bbox_inches='tight', pad_inches=0.1)
 
         # Statistics
         sucess_rate = results["Success"].mean() * 100
@@ -177,10 +179,10 @@ def main():
     patterns = [
         "results/Mistral-7B-Instruct-v0.2_INF*.tsv",
         "results/Mistral-7B-Instruct-v0.2_10*.tsv",
-        "results/gemma-2b-it_INF*.tsv",
-        "results/gemma-2b-it_10*.tsv",
         "results/Llama-3.1-8b_INF*.tsv",
         "results/Llama-3.1-8b_10*.tsv",
+        "results/gemma-2b-it_INF*.tsv",
+        "results/gemma-2b-it_10*.tsv",
     ]
     summary_stat = get_statistics(patterns)
     summary_stat.to_csv("exp_stat/summary_stat.csv", index=False)

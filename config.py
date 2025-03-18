@@ -17,7 +17,7 @@ class ExperimentParams:
         self.input_filename = self.input_filename.format(split_num)
 
 
-expt1_config = ExperimentParams(
+expt_config_mistral_inf = ExperimentParams(
     model_name="mistralai/Mistral-7B-Instruct-v0.2",
     classifier_name="Hate-speech-CNERG/dehatebert-mono-english",
     max_steps=50,
@@ -28,7 +28,7 @@ expt1_config = ExperimentParams(
 )
 
 
-expt2_config = ExperimentParams(
+expt_config_mistral_10 = ExperimentParams(
     model_name="mistralai/Mistral-7B-Instruct-v0.2",
     classifier_name="Hate-speech-CNERG/dehatebert-mono-english",
     max_steps=50,
@@ -38,17 +38,34 @@ expt2_config = ExperimentParams(
 )
 
 
-expt_gemma_config = ExperimentParams(
+expt_config_gemma_inf = ExperimentParams(
     model_name="google/gemma-2b-it",
     classifier_name="Hate-speech-CNERG/dehatebert-mono-english",
     max_steps=50,
     early_stopping_patience=25,
-    # max_change_per_step=np.inf,
+    max_change_per_step=np.inf,
+    rprt_name="XX",
+)
+
+expt_config_gemma_10 = ExperimentParams(
+    model_name="google/gemma-2b-it",
+    classifier_name="Hate-speech-CNERG/dehatebert-mono-english",
+    max_steps=50,
+    early_stopping_patience=25,
     max_change_per_step=10,
     rprt_name="XX",
 )
 
-expt_llama_config = ExperimentParams(
+expt_config_llama_inf = ExperimentParams(
+    model_name="meta-llama/Llama-3.1-8b",
+    classifier_name="Hate-speech-CNERG/dehatebert-mono-english",
+    max_steps=50,
+    early_stopping_patience=25,
+    max_change_per_step=np.inf,
+    rprt_name="XX",
+)
+
+expt_config_llama_10 = ExperimentParams(
     model_name="meta-llama/Llama-3.1-8b",
     classifier_name="Hate-speech-CNERG/dehatebert-mono-english",
     max_steps=50,

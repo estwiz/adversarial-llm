@@ -19,7 +19,15 @@ from utils import (
     write_result,
 )
 
-from config import ExperimentParams, expt1_config, expt2_config, expt_gemma_config, expt_llama_config
+from config import (
+    ExperimentParams,
+    expt_config_mistral_inf,
+    expt_config_mistral_10,
+    expt_config_llama_inf,
+    expt_config_llama_10,
+    expt_config_gemma_inf,
+    expt_config_gemma_10,
+)
 
 
 def load_classifier(classifier_name):
@@ -54,7 +62,7 @@ def load_llm_pipeline(llm_name):
         model=model,
         tokenizer=tokenizer,
         generation_config=generation_config,
-        return_full_text=False
+        return_full_text=False,
     )
 
     pipe = HuggingFacePipeline(pipeline=text_pipeline)
@@ -208,11 +216,13 @@ def run_expriment(config: ExperimentParams, split_num: int):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Parse arguments to build the config for the experiment")
-    parser.add_argument("--split", type=int, required=True, help="The split of the dataset to use")
+    parser = argparse.ArgumentParser(
+        description="Parse arguments to build the config for the experiment"
+    )
+    parser.add_argument(
+        "--split", type=int, required=True, help="The split of the dataset to use"
+    )
     args = parser.parse_args()
 
-    # run_expriment(config=expt1_config, split_num=args.split) # For Mistral
-    run_expriment(config=expt_gemma_config, split_num=args.split)
-    # run_expriment(config=expt2_config, split_num=args.split)
-    # run_expriment(config=expt_llama_config, split_num=args.split)
+    # Change the config if you want to perform a different experiment
+    run_expriment(config=expt_config_mistral_inf, split_num=args.split)
