@@ -20,11 +20,13 @@ sh ./setup.sh
 
 3. Run the python script to generate the adversarial examples in the `results` folder.
 
-```shell
-python3 craft_adv_examples.py --split=1
-```
+    In the `craft_adv_examples.py` file, make sure you reference (defined in the `config.py` file) the right configuration for the experiment you want to execute.
 
- * If you want to run the script on a remote server and not get it interrupted when your remote connection quits, run the command with `nohup` as below:
+    ```shell
+    python3 craft_adv_examples.py --split=1
+    ```
+
+    * If you want to run the script on a remote server and not get it interrupted when your remote connection quits, run the command with `nohup` as below:
 
     ```shell
     nohup python3 craft_adv_examples.py --split=1 > expt.log 2>&1 &
@@ -32,10 +34,18 @@ python3 craft_adv_examples.py --split=1
 
 4. Muti-GPU inference support
 
-The file `craft_adv_examples_multi_gpu.py` supports inference on multiple GPUs. Assuming your have `4` GPUs in your environment, run the following code to run:
-> [!IMPORTANT]  
-> Modify the number of GPU nodes available (--nproc-per-node 4)
+    The file `craft_adv_examples_multi_gpu.py` supports inference on multiple GPUs. Assuming your have `4` GPUs in your environment, run the following command:
 
-```
-torchrun --nproc-per-node 4 craft_adv_examples_multi_gpu.py  --split=1
-```
+    ```shell
+    torchrun --nproc-per-node 4 craft_adv_examples_multi_gpu.py  --split=1
+    ```
+    > [!IMPORTANT]  
+    > Modify the number of GPU nodes available (--nproc-per-node 4)
+
+5. Generate summary statistics
+
+    Run the following command to generate the summary statistics and visualization of the results of the experiments in the `exp_stat` folder:
+
+    ```shell
+    python3 expt_summary.py
+    ```
