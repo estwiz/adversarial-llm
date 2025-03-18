@@ -39,8 +39,8 @@ sh ./setup.sh
     ```shell
     torchrun --nproc-per-node 4 craft_adv_examples_multi_gpu.py  --split=1
     ```
-    > [!IMPORTANT]  
-    > Modify the number of GPU nodes available (--nproc-per-node 4)
+> [!IMPORTANT]  
+> Modify the number of GPU nodes available (--nproc-per-node 4)
 
 5. Generate summary statistics
 
